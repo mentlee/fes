@@ -1,0 +1,52 @@
+{
+  "name": "@mentle-co/scripts",
+  "version": "0.0.1",
+  "description": "Scripts for building frontend projects",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./lib/index.js"
+  },
+  "bin": "./lib/index.js",
+  "files": [
+    "lib/**/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mentle-co/scripts.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "author": "Ilia Byzov",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/mini-css-extract-plugin": "^2.3.0",
+    "@types/node": "^16.10.5",
+    "@types/webpack-bundle-analyzer": "^4.4.1",
+    "@types/webpack-dev-server": "^4.3.1",
+    "@types/yargs": "^17.0.3",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "@svgr/webpack": "^5.5.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.4.0",
+    "html-webpack-plugin": "^5.3.2",
+    "mini-css-extract-plugin": "^2.4.2",
+    "nanocolors": "^0.2.13",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-loader": "^6.2.0",
+    "postcss-normalize": "^10.0.1",
+    "postcss-preset-env": "^6.7.0",
+    "sass": "^1.42.1",
+    "sass-loader": "^12.2.0",
+    "style-loader": "^3.3.0",
+    "ts-loader": "^9.2.6",
+    "tsconfig-paths-webpack-plugin": "^3.5.1",
+    "webpack": "^5.58.2",
+    "webpack-bundle-analyzer": "^4.5.0",
+    "webpack-dev-server": "^4.3.1",
+    "yargs": "^17.2.1"
+  }
+}
