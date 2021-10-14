@@ -5,12 +5,12 @@ Bootstrap your react project with just a couple of steps
 1. Add appropriate `.npmrc` configuration (Replace `TOKEN` with your token)
 ```
 //npm.pkg.github.com/:_authToken=TOKEN
-@mentle-co:registry=https://npm.pkg.github.com
+@mentlee:registry=https://npm.pkg.github.com
 ```
 
 2. Install dependencies:
 ```bash
-npm i -D @mentle-co/scripts typescript @types/react @types/react-dom
+npm i -D @mentlee/scripts typescript @types/react @types/react-dom
 ```
 ```bash
 npm i react react-dom
