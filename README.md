@@ -1,6 +1,6 @@
 # Frontend scripts
 
-Bootstrap your react project with just couple of steps
+Bootstrap your react project with just a couple of steps
 
 1. Add appropriate `.npmrc` configuration (Replace `TOKEN` with your token)
 ```
