@@ -1,8 +1,7 @@
 name: Node.js Package Publication
 on:
-  push:
-    tags:
-      - 'v*'
+  release:
+    types: [created]
 jobs:
   build:
     runs-on: ubuntu-latest
