@@ -6,6 +6,7 @@ import { aliases } from '../config/modules/aliases';
 import { analyzer } from '../config/modules/analyzer';
 import { clean } from '../config/modules/clean';
 import { entry } from '../config/modules/entry';
+import { env } from '../config/modules/env';
 import { html } from '../config/modules/html';
 import { optimization } from '../config/modules/optimization';
 import { output } from '../config/modules/output';
@@ -29,6 +30,7 @@ export const start = (entryPoint: string, template: string) => {
     .add(html({ template }))
     .add(aliases())
     .add(optimization())
+    .add(env())
     .add(clean())
     .add(analyzer())
     .build();
