@@ -15,8 +15,11 @@ export class ConfigBuilder {
   private config: Configuration = {
     resolve: {
       fallback: {
-        // crypto: require.resolve('crypto-browserify'),
-        // stream: require.resolve('stream-browserify'),
+        crypto: require.resolve('crypto-browserify'),
+        stream: require.resolve('stream-browserify'),
+        util: require.resolve('util'),
+        buffer: require.resolve('buffer'),
+        process: require.resolve('process'),
       },
     },
     devtool: 'source-map',
