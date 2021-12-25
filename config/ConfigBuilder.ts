@@ -5,14 +5,14 @@ export enum Environment {
   Production = 'production',
 }
 
-export type Module = (config: Configuration, env: Environment) => Configuration
+export type Module = (config: Configuration, env: Environment) => Configuration;
 
 export class ConfigBuilder {
-  private env = Environment.Development;
+  private readonly env: Environment;
 
-  private modules: Module[] = [];
+  private readonly modules: Module[] = [];
 
-  private config: Configuration = {
+  private readonly config: Configuration = {
     resolve: {
       fallback: {
         crypto: require.resolve('crypto-browserify'),
@@ -26,20 +26,23 @@ export class ConfigBuilder {
   };
 
   constructor(env: Environment) {
-    this.env = env;
+    this.env = env || Environment.Development;
     this.config.mode = env;
   }
 
-  add(module: Module) {
+  public add(module: Module) {
     this.modules.push(module);
 
     return this;
   }
 
-  build() {
-    return this.modules.reduce(
-      (config, module) => module(config, this.env),
-      this.config
-    );
+  public build() {
+    let finalConfig = this.config;
+
+    for (const module of this.modules) {
+      finalConfig = module(finalConfig, this.env);
+    }
+
+    return finalConfig;
   }
 }

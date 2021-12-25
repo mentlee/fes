@@ -1,4 +1,6 @@
-import path from 'path';
+import path from 'node:path';
+import process from 'node:process';
+
 import { Configuration } from 'webpack';
 import TsconfigPathPlugin from 'tsconfig-paths-webpack-plugin';
 
@@ -7,8 +9,8 @@ export const typescript = () => (config: Configuration) => {
   const rule = {
     test: /\.tsx?$/,
     use: require.resolve('ts-loader'),
-    exclude: /node_modules/, 
-  }
+    exclude: /node_modules/,
+  };
   const plugin = new TsconfigPathPlugin({
     configFile: path.resolve(process.cwd(), 'tsconfig.json'),
   });
@@ -49,4 +51,4 @@ export const typescript = () => (config: Configuration) => {
   config.resolve.plugins.push(plugin);
 
   return config;
-}
+};

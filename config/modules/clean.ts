@@ -11,4 +11,4 @@ export const clean = () => (config: Configuration) => {
   config.plugins.push(plugin);
 
   return config;
-}
+};

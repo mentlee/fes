@@ -1,4 +1,6 @@
-import path from 'path';
+import path from 'node:path';
+import process from 'node:process';
+
 import { Configuration } from 'webpack';
 
 export const aliases = () => (config: Configuration) => {
@@ -12,7 +14,7 @@ export const aliases = () => (config: Configuration) => {
     config.resolve.alias = {};
   }
 
-  config.resolve.alias = {...config.resolve.alias, ...alias};
+  config.resolve.alias = { ...config.resolve.alias, ...alias };
 
   return config;
-}
+};

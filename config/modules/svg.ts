@@ -19,4 +19,4 @@ export const svg = () => (config: Configuration) => {
   config.module.rules.push(rule);
 
   return config;
-}
+};

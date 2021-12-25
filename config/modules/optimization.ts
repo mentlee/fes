@@ -11,8 +11,8 @@ export const optimization = () => (config: Configuration) => {
       test: /[\\/]node_modules[\\/]/,
       priority: -20,
       name: 'vendor',
-    }
-  }
+    },
+  };
 
   if (typeof config.optimization === 'undefined') {
     config.optimization = {};
@@ -28,4 +28,4 @@ export const optimization = () => (config: Configuration) => {
   config.performance = { hints: false };
 
   return config;
-}
+};

@@ -1,3 +1,5 @@
+import process from 'node:process';
+
 import { Configuration } from 'webpack';
 
 export const entry = (entryPoint: string) => (config: Configuration) => {

@@ -1,4 +1,6 @@
-import path from 'path';
+import path from 'node:path';
+import process from 'node:process';
+
 import { Configuration } from 'webpack';
 
 type OutputConfig = {
@@ -8,9 +10,9 @@ type OutputConfig = {
   publicPath?: string;
 };
 
-export const output = (outputConfig: OutputConfig) => (config: Configuration) => {
-  config.output = outputConfig;
-  config.output.path = path.resolve(process.cwd(), outputConfig.path);
-  config.output.chunkFilename
-  return config;
-};
+export const output =
+  (outputConfig: OutputConfig) => (config: Configuration) => {
+    config.output = outputConfig;
+    config.output.path = path.resolve(process.cwd(), outputConfig.path);
+    return config;
+  };

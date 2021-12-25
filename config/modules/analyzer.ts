@@ -1,4 +1,5 @@
-import path from 'path';
+import path from 'node:path';
+import process from 'node:process';
 
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { Configuration } from 'webpack';
@@ -17,4 +18,4 @@ export const analyzer = () => (config: Configuration) => {
   config.plugins.push(plugin);
 
   return config;
-}
+};

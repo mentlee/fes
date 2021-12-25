@@ -1,6 +1,6 @@
 import { webpack } from 'webpack';
 
-import { ConfigBuilder, Environment } from '../config/ConfigBuilder'
+import { ConfigBuilder, Environment } from '../config/ConfigBuilder';
 import { aliases } from '../config/modules/aliases';
 import { analyzer } from '../config/modules/analyzer';
 import { clean } from '../config/modules/clean';
@@ -18,12 +18,14 @@ export const build = (entryPoint: string, template: string) => {
   const builder = new ConfigBuilder(Environment.Production);
   const config = builder
     .add(entry(entryPoint))
-    .add(output({
-      path: './build',
-      filename: '[name].[contenthash:8].js',
-      chunkFilename: '[name].[chunkhash:8].js',
-      publicPath: '/'
-    }))
+    .add(
+      output({
+        path: './build',
+        filename: '[name].[contenthash:8].js',
+        chunkFilename: '[name].[chunkhash:8].js',
+        publicPath: '/',
+      }),
+    )
     .add(typescript())
     .add(scss({ filename: '[name].[contenthash:8].css' }))
     .add(svg())
@@ -34,7 +36,7 @@ export const build = (entryPoint: string, template: string) => {
     .add(clean())
     .add(analyzer())
     .build();
-  
+
   const compiler = webpack(config);
   compiler.run(webpackCallback);
 };
