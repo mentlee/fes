@@ -1,45 +1,29 @@
 #!/usr/bin/env node
 import process from 'node:process';
 
-import yargs from 'yargs';
+import { Command } from 'commander';
+
 import { build } from './scripts/build';
 import { start } from './scripts/start';
 
-void yargs(process.argv.slice(2))
-  .command(
-    'start <entry> [template]',
-    'Start dev server',
-    (builder) => {
-      return builder
-        .positional('entry', {
-          type: 'string',
-          demandOption: true,
-        })
-        .positional('template', {
-          type: 'string',
-          default: './public/index.html',
-        });
-    },
-    (argv) => {
-      start(argv.entry, argv.template);
-    },
-  )
-  .command(
-    'build <entry>',
-    'Build project',
-    (builder) => {
-      return builder
-        .positional('entry', {
-          type: 'string',
-          demandOption: true,
-        })
-        .positional('template', {
-          type: 'string',
-          default: './public/index.html',
-        });
-    },
-    (argv) => {
-      build(argv.entry, argv.template);
-    },
-  )
-  .demandCommand().argv;
+const program = new Command();
+
+program
+  .command('start')
+  .description('start dev server')
+  .argument('<entry>', 'entry point')
+  .argument('[template]', 'path to html template', './public/index.html')
+  .action((entry, template) => {
+    start(entry, template);
+  });
+
+program
+  .command('build')
+  .description('build application')
+  .argument('<entry>', 'entry point')
+  .argument('[template]', 'path to html template', './public/index.html')
+  .action((entry, template) => {
+    build(entry, template);
+  });
+
+program.parse(process.argv);
