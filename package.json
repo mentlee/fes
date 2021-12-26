@@ -1,5 +1,5 @@
 {
-  "name": "@mentlee/scripts",
+  "name": "@mentlee/fes",
   "version": "0.0.5",
   "description": "Scripts for building frontend projects",
   "main": "index.js",
@@ -14,7 +14,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/mentlee/scripts.git"
+    "url": "git://github.com/mentlee/fes.git"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"

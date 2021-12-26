@@ -10,7 +10,7 @@ Bootstrap your react project with just a couple of steps
 
 2. Install dependencies:
 ```bash
-npm i -D @mentlee/scripts typescript @types/react @types/react-dom
+npm i -D @mentlee/fes typescript @types/react @types/react-dom
 ```
 ```bash
 npm i react react-dom
@@ -32,8 +32,8 @@ npm i react react-dom
 ```
 ...
 "scripts": {
-  "start": "scripts start ./src/index.tsx",
-  "build": "scripts build ./src/index.tsx"
+  "start": "fes start ./src/index.tsx",
+  "build": "fes build ./src/index.tsx"
 },
 ...
 ```
