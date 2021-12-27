@@ -1,6 +1,6 @@
 {
   "name": "@mentlee/fes",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Scripts for building frontend projects",
   "main": "index.js",
   "scripts": {
