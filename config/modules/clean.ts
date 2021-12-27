@@ -1,14 +1,12 @@
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import { Configuration } from 'webpack';
 
-export const clean = () => (config: Configuration) => {
+export const clean = () => {
   const plugin = new CleanWebpackPlugin();
 
-  if (typeof config.plugins === 'undefined') {
-    config.plugins = [];
-  }
-
-  config.plugins.push(plugin);
+  const config: Configuration = {
+    plugins: [plugin],
+  };
 
   return config;
 };

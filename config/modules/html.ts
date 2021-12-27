@@ -4,22 +4,16 @@ import process from 'node:process';
 import { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-type HtmlConfig = {
-  template: string;
-};
+import { Options } from '../../types';
 
-export const html =
-  ({ template }: HtmlConfig) =>
-  (config: Configuration) => {
-    const plugin = new HtmlWebpackPlugin({
-      template: path.resolve(process.cwd(), template),
-    });
+export const html = (options: Options) => {
+  const plugin = new HtmlWebpackPlugin({
+    template: path.resolve(process.cwd(), options.template),
+  });
 
-    if (typeof config.plugins === 'undefined') {
-      config.plugins = [];
-    }
-
-    config.plugins.push(plugin);
-
-    return config;
+  const config: Configuration = {
+    plugins: [plugin],
   };
+
+  return config;
+};

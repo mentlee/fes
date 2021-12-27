@@ -3,16 +3,21 @@ import process from 'node:process';
 
 import { Configuration } from 'webpack';
 
-type OutputConfig = {
-  path: string;
-  filename: string;
-  chunkFilename: string;
-  publicPath?: string;
-};
+import { matchEnv } from '../../helpers/matchEnv';
 
-export const output =
-  (outputConfig: OutputConfig) => (config: Configuration) => {
-    config.output = outputConfig;
-    config.output.path = path.resolve(process.cwd(), outputConfig.path);
-    return config;
+import { Environment, Options } from '../../types';
+
+export const output = (options: Options, environment: Environment) => {
+  const hash = matchEnv(options.hash, environment);
+  const outPath = path.resolve(process.cwd(), options.outDir);
+
+  const config: Configuration = {
+    output: {
+      path: outPath,
+      filename: hash ? '[name].[contenthash:8].js' : '[name].js',
+      chunkFilename: hash ? '[name].[chunkhash:8].js' : '[name].js',
+      publicPath: options.publicPath,
+    },
   };
+  return config;
+};

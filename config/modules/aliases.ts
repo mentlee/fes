@@ -3,18 +3,21 @@ import process from 'node:process';
 
 import { Configuration } from 'webpack';
 
-export const aliases = () => (config: Configuration) => {
-  const alias = { '@': path.resolve(process.cwd(), './src') };
+import { Options } from '../../types';
 
-  if (typeof config.resolve === 'undefined') {
-    config.resolve = {};
-  }
+export const aliases = (options: Options) => {
+  // Resolve alias paths relative to cwd
+  const aliasEntries = Object.entries(options.aliases).map<[string, string]>(
+    ([key, alias]) => [key, path.resolve(process.cwd(), alias)],
+  );
 
-  if (typeof config.resolve.alias === 'undefined') {
-    config.resolve.alias = {};
-  }
+  const alias = Object.fromEntries(aliasEntries);
 
-  config.resolve.alias = { ...config.resolve.alias, ...alias };
+  const config: Configuration = {
+    resolve: {
+      alias,
+    },
+  };
 
   return config;
 };

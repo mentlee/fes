@@ -1,6 +1,6 @@
 import { Configuration } from 'webpack';
 
-export const optimization = () => (config: Configuration) => {
+export const optimization = () => {
   const cacheGroups = {
     react: {
       test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
@@ -14,18 +14,18 @@ export const optimization = () => (config: Configuration) => {
     },
   };
 
-  if (typeof config.optimization === 'undefined') {
-    config.optimization = {};
-  }
-
-  config.optimization.runtimeChunk = 'single';
-
-  config.optimization.splitChunks = {
-    cacheGroups,
-    chunks: 'all',
+  const config: Configuration = {
+    optimization: {
+      runtimeChunk: 'single',
+      splitChunks: {
+        cacheGroups,
+        chunks: 'all',
+      },
+    },
+    performance: {
+      hints: false,
+    },
   };
-
-  config.performance = { hints: false };
 
   return config;
 };

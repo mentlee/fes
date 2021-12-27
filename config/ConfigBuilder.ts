@@ -1,48 +1,40 @@
 import { Configuration } from 'webpack';
+import { merge } from 'webpack-merge';
 
-export enum Environment {
-  Development = 'development',
-  Production = 'production',
-}
-
-export type Module = (config: Configuration, env: Environment) => Configuration;
+import { Options, ConfigModule, Environment } from '../types';
 
 export class ConfigBuilder {
-  private readonly env: Environment;
+  private readonly environment: Environment;
+  private readonly options: Options;
+  private readonly modules: ConfigModule[];
 
-  private readonly modules: Module[] = [];
-
-  private readonly config: Configuration = {
-    resolve: {
-      fallback: {
-        crypto: require.resolve('crypto-browserify'),
-        stream: require.resolve('stream-browserify'),
-        util: require.resolve('util'),
-        buffer: require.resolve('buffer'),
-        process: require.resolve('process'),
-      },
-    },
-    devtool: 'source-map',
-  };
-
-  constructor(env: Environment) {
-    this.env = env || Environment.Development;
-    this.config.mode = env;
+  constructor(options: Options, environment: Environment) {
+    this.environment = environment;
+    this.options = options;
+    this.modules = [];
   }
 
-  public add(module: Module) {
+  add(module: ConfigModule) {
     this.modules.push(module);
 
     return this;
   }
 
-  public build() {
-    let finalConfig = this.config;
+  build() {
+    let config: Configuration = {
+      mode:
+        this.environment === Environment.Development
+          ? 'development'
+          : 'production',
+    };
 
     for (const module of this.modules) {
-      finalConfig = module(finalConfig, this.env);
+      config = merge<Configuration>(
+        config,
+        module(this.options, this.environment),
+      );
     }
 
-    return finalConfig;
+    return config;
   }
 }

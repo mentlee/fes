@@ -2,8 +2,13 @@ import process from 'node:process';
 
 import { Configuration } from 'webpack';
 
-export const entry = (entryPoint: string) => (config: Configuration) => {
-  config.entry = entryPoint;
-  config.context = process.cwd();
+import { Options } from '../../types';
+
+export const entry = (options: Options) => {
+  const config: Configuration = {
+    entry: options.entry,
+    context: process.cwd(),
+  };
+
   return config;
 };

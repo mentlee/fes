@@ -1,16 +1,14 @@
 import { Configuration } from 'webpack';
 import Dotenv from 'dotenv-webpack';
 
-export const env = () => (config: Configuration) => {
+export const env = () => {
   const plugin = new Dotenv({
     systemvars: true,
   });
 
-  if (typeof config.plugins === 'undefined') {
-    config.plugins = [];
-  }
-
-  config.plugins.push(plugin);
+  const config: Configuration = {
+    plugins: [plugin],
+  };
 
   return config;
 };

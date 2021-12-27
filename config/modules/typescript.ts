@@ -4,8 +4,7 @@ import process from 'node:process';
 import { Configuration } from 'webpack';
 import TsconfigPathPlugin from 'tsconfig-paths-webpack-plugin';
 
-export const typescript = () => (config: Configuration) => {
-  const extensions = ['.tsx', '.ts', '.jsx', '.js'];
+export const typescript = () => {
   const rule = {
     test: /\.tsx?$/,
     use: require.resolve('ts-loader'),
@@ -14,41 +13,17 @@ export const typescript = () => (config: Configuration) => {
   const plugin = new TsconfigPathPlugin({
     configFile: path.resolve(process.cwd(), 'tsconfig.json'),
   });
+  const extensions = ['.tsx', '.ts', '.jsx', '.js'];
 
-  /**
-   * Apply rules
-   */
-  if (typeof config.module === 'undefined') {
-    config.module = {};
-  }
-
-  if (typeof config.module.rules === 'undefined') {
-    config.module.rules = [];
-  }
-
-  config.module.rules.push(rule);
-
-  /**
-   * Apply extensions
-   */
-  if (typeof config.resolve === 'undefined') {
-    config.resolve = {};
-  }
-
-  if (typeof config.resolve.extensions === 'undefined') {
-    config.resolve.extensions = [];
-  }
-
-  config.resolve.extensions.push(...extensions);
-
-  /**
-   * Apply resolve plugin
-   */
-  if (typeof config.resolve.plugins === 'undefined') {
-    config.resolve.plugins = [];
-  }
-
-  config.resolve.plugins.push(plugin);
+  const config: Configuration = {
+    module: {
+      rules: [rule],
+    },
+    resolve: {
+      plugins: [plugin],
+      extensions,
+    },
+  };
 
   return config;
 };

@@ -1,83 +1,77 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { Configuration, RuleSetUse } from 'webpack';
-import { Environment } from '../ConfigBuilder';
+import { Configuration, RuleSetUse, WebpackPluginInstance } from 'webpack';
 
-type ScssConfig = {
-  filename: string;
-};
+import { matchEnv } from '../../helpers/matchEnv';
 
-export const scss =
-  (scssConfig: ScssConfig) => (config: Configuration, env: Environment) => {
-    const sassLoader = {
-      loader: require.resolve('sass-loader'),
-      options: {
-        sourceMap: true,
-      },
-    };
+import { Environment, Options } from '../../types';
 
-    const postcssLoader = {
-      loader: require.resolve('postcss-loader'),
-      options: {
-        postcssOptions: {
-          plugins: [
-            require.resolve('postcss-flexbugs-fixes'),
-            [
-              require.resolve('postcss-preset-env'),
-              {
-                autoprefixer: {
-                  flexbox: 'no-2009',
-                },
-                stage: 3,
-              },
-            ],
-            require.resolve('postcss-normalize'),
-          ],
-        },
-      },
-    };
-
-    const cssLoader = {
-      loader: require.resolve('css-loader'),
-      options: {
-        importLoaders: 2,
-        sourceMap: true,
-        modules: true,
-      },
-    };
-
-    const rule = {
-      test: /\.s?css$/,
-      use: [
-        env === Environment.Production && MiniCssExtractPlugin.loader,
-        env === Environment.Development && require.resolve('style-loader'),
-        cssLoader,
-        postcssLoader,
-        sassLoader,
-      ].filter(Boolean) as RuleSetUse,
-    };
-
-    const plugin = new MiniCssExtractPlugin({
-      filename: scssConfig.filename,
-      chunkFilename: '[id].css',
-    });
-
-    if (!config.module) {
-      config.module = {};
-    }
-
-    if (!config.module.rules) {
-      config.module.rules = [];
-    }
-
-    config.module.rules.push(rule);
-
-    if (env === Environment.Production) {
-      if (!config.plugins) {
-        config.plugins = [];
-      }
-
-      config.plugins.push(plugin);
-    }
-
-    return config;
+export const scss = (options: Options, environment: Environment) => {
+  const sassLoader = {
+    loader: require.resolve('sass-loader'),
+    options: {
+      sourceMap: true,
+    },
   };
+
+  const postcssLoader = {
+    loader: require.resolve('postcss-loader'),
+    options: {
+      postcssOptions: {
+        plugins: [
+          require.resolve('postcss-flexbugs-fixes'),
+          [
+            require.resolve('postcss-preset-env'),
+            {
+              autoprefixer: {
+                flexbox: 'no-2009',
+              },
+              stage: 3,
+            },
+          ],
+          require.resolve('postcss-normalize'),
+        ],
+      },
+    },
+  };
+
+  const cssLoader = {
+    loader: require.resolve('css-loader'),
+    options: {
+      importLoaders: 2,
+      sourceMap: true,
+      modules: true,
+    },
+  };
+
+  const rule = {
+    test: /\.s?css$/,
+    use: [
+      environment === Environment.Production && MiniCssExtractPlugin.loader,
+      environment === Environment.Development &&
+        require.resolve('style-loader'),
+      cssLoader,
+      postcssLoader,
+      sassLoader,
+    ].filter(Boolean) as RuleSetUse,
+  };
+
+  const filename = matchEnv(options.hash, environment)
+    ? '[name].[contenthash:8].css'
+    : '[name].css';
+
+  const plugin = new MiniCssExtractPlugin({
+    filename,
+    chunkFilename: '[id].css',
+  });
+
+  const config: Configuration = {
+    module: {
+      rules: [rule],
+    },
+    plugins: [environment === Environment.Production && plugin].filter(
+      Boolean,
+    ) as WebpackPluginInstance[],
+  };
+
+  return config;
+};

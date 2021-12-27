@@ -1,6 +1,6 @@
 import { Configuration } from 'webpack';
 
-export const svg = () => (config: Configuration) => {
+export const svg = () => {
   const rule = {
     test: /\.svg$/,
     use: {
@@ -8,15 +8,11 @@ export const svg = () => (config: Configuration) => {
     },
   };
 
-  if (typeof config.module === 'undefined') {
-    config.module = {};
-  }
-
-  if (typeof config.module.rules === 'undefined') {
-    config.module.rules = [];
-  }
-
-  config.module.rules.push(rule);
+  const config: Configuration = {
+    module: {
+      rules: [rule],
+    },
+  };
 
   return config;
 };

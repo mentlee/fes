@@ -4,18 +4,26 @@ import process from 'node:process';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { Configuration } from 'webpack';
 
-export const analyzer = () => (config: Configuration) => {
+import { Environment, Options } from '../../types';
+
+import { matchEnv } from '../../helpers/matchEnv';
+
+export const analyzer = (options: Options, environment: Environment) => {
   const plugin = new BundleAnalyzerPlugin({
     analyzerMode: 'static',
     openAnalyzer: false,
     reportFilename: path.resolve(process.cwd(), 'stats', 'report.html'),
   });
 
-  if (typeof config.plugins === 'undefined') {
-    config.plugins = [];
+  const include = matchEnv(options.analyzer, environment);
+
+  if (!include) {
+    return {};
   }
 
-  config.plugins.push(plugin);
+  const config: Configuration = {
+    plugins: [plugin],
+  };
 
   return config;
 };
